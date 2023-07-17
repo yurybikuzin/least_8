@@ -1,60 +1,12 @@
-# least_8
+const CAPACITY: usize = 8;
 
-## [Problem](https://play.rust-lang.org/?version=stable&mode=release&edition=2021&gist=fe53eb4c4c37d13feffe427bdac97e4e)
-
-```Rust
-// OPTIMIZE THIS FUNCTION TO RUN AS FAST AS POSSIBLE
-// Result must work on play.rust-lang.org
-
-/// Returns the 8 smallest numbers found in the supplied vector
-/// in order smallest to largest.
-fn least_8(l: &Vec<u32>) -> Vec<u32> {
-    let mut ll = l.clone();
+pub fn naive(l: &[u32]) -> Vec<u32> {
+    let mut ll = l.to_owned();
     ll.sort();
-    ll[0..8].iter().cloned().collect()
+    ll[0..CAPACITY].to_vec()
 }
 
-// DO NOT CHANGE ANYTHING BELOW THIS LINE
-
-fn make_list() -> Vec<u32> {
-    const SIZE: usize = 1<<16;
-    let mut out = Vec::with_capacity(SIZE);
-    let mut num = 998_244_353_u32; // prime
-    for i in 0..SIZE {
-        out.push(num);
-        // rotate and add to produce some pseudorandomness
-        num = (((num << 1) | (num >> 31)) as u64 + (i as u64)) as u32;
-    }
-    return out;
-}
-
-fn main() {
-    let l = make_list();
-    let start = std::time::Instant::now();
-    let l8 = least_8(&l);
-    let end = std::time::Instant::now();
-    assert_eq!(vec![4, 5, 15, 22, 28, 31, 37, 38], l8);
-    println!("Took {:?}", end.duration_since(start));
-}
-```
-
-### Benchmark
-
-Note, that `fn least_8` implements a **naive** solution with the following benchmark on my laptop:
-
-```
-test naive            ... bench:   2,003,496 ns/iter (+/- 15,684)
-```
-
-## [`fn optimized` solution](https://play.rust-lang.org/?version=stable&mode=release&edition=2021&gist=40797ebb912e59a9c02085751d93eb19)
-
-### Idea 
-
-Form the result in one pass through the original array, accumulating the smallest values in the sorted result array
-
-### Implementation
-
-```Rust
+// form the result in one pass through the original array, accumulating the smallest values in the sorted result array
 pub fn optimized(l: &[u32]) -> Vec<u32> {
     let mut ret = Vec::with_capacity(CAPACITY);
     for element in l {
@@ -71,30 +23,6 @@ pub fn optimized(l: &[u32]) -> Vec<u32> {
     }
     ret
 }
-const CAPACITY: usize = 8;
-
-```
-
-### Benchmark
-
-`fn optmized` solution has the following benchmark on my laptop:
-
-```
-test optimized        ... bench:     198,033 ns/iter (+/- 6,061)
-```
-
-which is 10 times faster than **naive** solution
-
-
-## [`fn thread_optimized` solution](https://play.rust-lang.org/?version=stable&mode=release&edition=2021&gist=de69ebb784295801caa584e2cac94c8c)
-
-### Idea 
-
-We can use threads to parallelize the work by splitting the original array into several subarrays, finding the 8 minimum values in each of them, and merging these results at the end
-
-### Implementation
-
-```Rust
 
 pub fn thread_optimized(l: &[u32]) -> Vec<u32> {
     use std::thread;
@@ -158,8 +86,6 @@ pub fn thread_optimized(l: &[u32]) -> Vec<u32> {
     ret
 }
 
-const CAPACITY: usize = 8;
-
 struct MyBox {
     ptr: *const u32,
     len: usize,
@@ -206,20 +132,3 @@ unsafe fn thread_optimized_helper(arg: MyBox) {
         }
     }
 }
-```
-
-
-### Benchmark
-
-`fn thread_optimized` solution has the following benchmark on my laptop:
-
-```
-test thread_optimized ... bench:     107,895 ns/iter (+/- 4,352)
-```
-
-which is almost 2 times faster than `fn optimized` solution
-
-
-## Summary
-
-Thus, we managed to speed up the work of the algorithm for finding the 8 smallest values by 20 times

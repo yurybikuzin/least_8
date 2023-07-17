@@ -90,7 +90,7 @@ which is 10 times faster than **naive** solution
 
 ### Idea 
 
-We can use threads to parallelize the work by splitting the original array into several subarrays, finding the 8 minimum values in each of them, and merging these results at the end
+We can use threads to parallelize the work by splitting the original array into several subarrays, finding the 8 smallest values in each of them, and merging these results at the end
 
 ### Implementation
 

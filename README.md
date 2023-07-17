@@ -222,4 +222,4 @@ which is almost 2 times faster than `fn optimized` solution
 
 ## Summary
 
-Thus, we managed to speed up the work of the algorithm for finding the 8 smallest values by 20 times
+Thus, we managed to speed up the work of the **naive** implementation for finding the 8 smallest values by 20 times

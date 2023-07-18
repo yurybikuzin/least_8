@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
-$dir=$(dirname "$0")
+dir=$(dirname "$0")
 cd "$dir"
-cargo test 
+cargo test "$@"

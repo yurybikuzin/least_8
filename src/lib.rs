@@ -68,4 +68,73 @@ mod tests {
         let l8 = implementation::thread_optimized(&l);
         assert_eq!(vec![4, 5, 15, 22, 28, 31, 37, 37], l8);
     }
+
+    #[test]
+    fn cheat_optimized() {
+        let l = make_list();
+        let l8 = implementation::cheat_optimized(&l);
+        assert_eq!(vec![4, 5, 15, 22, 28, 31, 37, 38], l8);
+    }
+
+    #[test]
+    fn cheat_optimized_edge_case() {
+        let mut l = make_list();
+        l.push(38);
+        let l8 = implementation::cheat_optimized(&l);
+        assert_eq!(vec![4, 5, 15, 22, 28, 31, 37, 38], l8);
+    }
+
+    #[test]
+    fn cheat_optimized_edge_case2() {
+        let mut l = make_list();
+        l.push(37);
+        let l8 = implementation::cheat_optimized(&l);
+        assert_eq!(vec![4, 5, 15, 22, 28, 31, 37, 37], l8);
+    }
+
+    #[test]
+    fn less_cheat_optimized() {
+        let l = make_list();
+        let l8 = implementation::less_cheat_optimized(&l);
+        assert_eq!(vec![4, 5, 15, 22, 28, 31, 37, 38], l8);
+    }
+
+    #[test]
+    fn less_cheat_optimized_edge_case() {
+        let mut l = make_list();
+        l.push(38);
+        let l8 = implementation::less_cheat_optimized(&l);
+        assert_eq!(vec![4, 5, 15, 22, 28, 31, 37, 38], l8);
+    }
+
+    #[test]
+    fn less_cheat_optimized_edge_case2() {
+        let mut l = make_list();
+        l.push(37);
+        let l8 = implementation::less_cheat_optimized(&l);
+        assert_eq!(vec![4, 5, 15, 22, 28, 31, 37, 37], l8);
+    }
+
+    #[test]
+    fn non_cheat_optimized() {
+        let l = make_list();
+        let l8 = implementation::non_cheat_optimized(&l);
+        assert_eq!(vec![4, 5, 15, 22, 28, 31, 37, 38], l8);
+    }
+
+    #[test]
+    fn non_cheat_optimized_edge_case() {
+        let mut l = make_list();
+        l.push(38);
+        let l8 = implementation::non_cheat_optimized(&l);
+        assert_eq!(vec![4, 5, 15, 22, 28, 31, 37, 38], l8);
+    }
+
+    #[test]
+    fn non_cheat_optimized_edge_case2() {
+        let mut l = make_list();
+        l.push(37);
+        let l8 = implementation::non_cheat_optimized(&l);
+        assert_eq!(vec![4, 5, 15, 22, 28, 31, 37, 37], l8);
+    }
 }
